@@ -1,0 +1,26 @@
+import random
+
+def generar_laberinto(filas, columnas):
+    laberinto = [[0] * columnas for _ in range(filas)]
+
+    # casilla inicial
+    laberinto[0][0] = 0
+
+
+    for i in range(filas):
+        for j in range(columnas):
+            if i == 0 and j == 0:
+                continue  # Salta la casilla de inicio que ya tiene un cero por fuerza
+
+            if i == filas - 1 or j == columnas - 1:
+                laberinto[i][j] = 0
+            else:
+                laberinto[i][j] = random.choice([0, 1])
+
+    return laberinto
+
+laberinto_prueba = generar_laberinto(6, 6)
+
+
+for fila in laberinto_prueba:
+    print(fila)
