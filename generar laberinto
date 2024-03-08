@@ -1,0 +1,43 @@
+import random
+
+def generar_laberinto(filas, columnas):
+    laberinto = [[1] * (2 * columnas + 1) for _ in range(2 * filas + 1)]
+
+    # Establecer la casilla inicial y la salida
+    laberinto[0][1] = 0  # Inicio
+    laberinto[2 * filas][2 * columnas - 1] = 5  # Salida
+
+    # Función para agregar las paredes
+    def agregar_pared(x, y):
+        laberinto[x][y] = 1
+        laberinto[x + 1][y] = 1
+        laberinto[x + 2][y] = 1
+
+
+    visitados = set()
+    stack = [(0, 1)]
+
+    while stack:
+        x, y = stack.pop()
+        if (x, y) in visitados:
+            continue
+
+        visitados.add((x, y))
+        laberinto[x][y] = 0
+
+        vecinos = [(x - 2, y), (x + 2, y), (x, y - 2), (x, y + 2)]
+        random.shuffle(vecinos)
+
+        for nx, ny in vecinos:
+            if 0 < nx < 2 * filas and 0 < ny < 2 * columnas and (nx, ny) not in visitados:
+                stack.append((nx, ny))
+                agregar_pared((x + nx) // 2, (y + ny) // 2)
+
+    return laberinto
+
+# Generar laberinto
+laberinto_6x6 = generar_laberinto(6, 6)
+
+# Imprimir el laberinto
+for fila in laberinto_6x6:
+    print(fila)
